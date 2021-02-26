@@ -29,7 +29,7 @@ public class Battle {
     }
 
     //Метод для совершения удара
-    private boolean makeHit(Character def, Character attack, Realm.FightCallback fightCallback) {
+    private Boolean makeHit(Character def, Character attack, Realm.FightCallback fightCallback) {
         //Получаем силу удара
         int hit = attack.attack();
         //Отнимаем количество урона из здоровья защищающегося

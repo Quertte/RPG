@@ -27,6 +27,7 @@ public class Realm {
         }
     }
 
+
     private static void command(String string) throws IOException {
         //Если это первый запуск, то мы должны создать игрока, именем будет служить первая введенная строка из консоли
         if (player == null) {
@@ -36,15 +37,15 @@ public class Realm {
             printNavigation();
         }
         switch (string) {
-            case "1": {
+            case "1":
                 System.out.println("Торговец еще не приехал");
                 command(br.readLine());
-            }
-            break;
-            case "2": {
+
+                break;
+            case "2":
                 commitFight();
-            }
-            break;
+
+                break;
             case "3":
                 System.exit(1);
                 break;
@@ -54,6 +55,8 @@ public class Realm {
             case "нет":
                 printNavigation();
                 command(br.readLine());
+            default:
+                break;
         }
         //Снова ждем команды от пользователя
         command(br.readLine());
@@ -92,12 +95,16 @@ public class Realm {
         //Рандомайзер
         int random = (int) (Math.random() * 10);
         //С вероятностью 50% создается или скелет, или гоблин
-        if (random % 2 == 0) return new Goblin("Гоблин", 50, 10, 10, 100, 20);
-        else return new Skeleton("Скелет", 25, 20, 20, 100, 10);
+        if (random % 2 == 0) {
+            return new Goblin("Гоблин", 50, 10, 10, 100, 20);
+        } else {
+            return new Skeleton("Скелет", 25, 20, 20, 100, 10);
+        }
     }
 
     interface FightCallback {
         void fightWin();
+
         void fightLost();
     }
 }
