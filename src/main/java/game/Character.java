@@ -6,27 +6,32 @@ public abstract class Character implements Fighter {
     //ник-нейм
     private String name;
     //Характеристики персонажа
+    private int level;
+
     private int hp;
+
     private int strength;
     private int agility;
-
     // Золото и опыт
+
     private int xp;
     private int gold;
+
+    private static final int FULL_HP = 100;
 
     public Character(String name, int hp, int strength, int agility, int xp, int gold) {
         this.name = name;
         this.hp = hp;
         this.strength = strength;
-        this.agility = agility;
         this.xp = xp;
         this.gold = gold;
+        this.level = 1;
     }
 
     @Override
     public int attack() {
         if (agility * 3 > random()) {
-            //Шанс критического удара 25%
+            //Шанс критического удара 20%
             if ((new Random().nextInt(4) + 1) == 1) {
                 System.out.println("Критический удар!!!");
                 return strength * 2;
@@ -34,6 +39,23 @@ public abstract class Character implements Fighter {
             return strength;
         }
         return 0;
+    }
+
+    void levelUp(int xp) {
+        if (xp >= 200) {
+            ++level;
+            this.hp = FULL_HP + 20;
+            this.agility += 20;
+            System.out.println("Ваш уровень поднят! Ваш уровень: " + level + "ваше здоровь: " + hp + "ваша ловкость:" + agility);
+        }
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    private int random() {
+        return (int) (Math.random() * 100);
     }
 
     public String getName() {
@@ -82,10 +104,6 @@ public abstract class Character implements Fighter {
 
     public void setGold(int gold) {
         this.gold = gold;
-    }
-
-    private int random() {
-        return (int) (Math.random() * 100);
     }
 
     public String toString() {

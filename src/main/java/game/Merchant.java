@@ -1,18 +1,18 @@
 package game;
 
-public  class Merchant implements Seller {
+public class Merchant implements Seller {
 
 
     @Override
-    public String sell(Goods goods) {
-        String result = "";
+    public int sell(Goods goods) {
+        int result = 0;
         if (goods == Goods.POTION) {
-            result = "potion";
+            result = 20;
         }
         return result;
     }
 
-    public  enum Goods {
+    public enum Goods {
         POTION
     }
 }

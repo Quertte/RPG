@@ -4,7 +4,12 @@ public class Battle {
     // Метод, который вызывается при начале боя, сюда мы передаем ссылки на нашего героя и монстра.
     public void fight(Character hero, Character monster, Realm.FightCallback fightCallback) {
         //Ходы будут идти в отдельном потоке
-        new Thread(() -> {
+        //Сюда запишем какой ход по счету
+        //Когда бой будет закончен мы
+        //Воины бьют по очереди, описываем логику смены сторон
+        //Чтобы бой не проходил за секунду, сделаем имитацию работы, как если бы
+        //у нас была анимация
+        Runnable runnable = () -> {
             //Сюда запишем какой ход по счету
             int turn = 1;
             //Когда бой будет закончен мы
@@ -20,12 +25,14 @@ public class Battle {
                 try {
                     //Чтобы бой не проходил за секунду, сделаем имитацию работы, как если бы
                     //у нас была анимация
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        };
+        Thread fight = new Thread(runnable);
+        fight.start();
     }
 
     //Метод для совершения удара
@@ -52,6 +59,7 @@ public class Battle {
             //Если здоровья больше нет и защищающийся – это монстр, то мы забираем от монстра его опыт и золото
             System.out.printf("Враг повержен! Вы получаете %d опыта и %d золота", def.getXp(), def.getGold());
             attack.setXp(attack.getXp() + def.getXp());
+            attack.levelUp(attack.getXp());
             attack.setGold(attack.getGold() + def.getGold());
             //вызываем коллбэк, что мы победили
             fightCallback.fightWin();

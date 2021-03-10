@@ -12,6 +12,8 @@ public class Realm {
     //Класс для битвы можно не создавать каждый раз, а переиспользовать
     private static Battle battle = null;
 
+    private static Seller seller = null;
+
     public static void main(String[] args) {
         //Инициализируем BufferedReader
         br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,13 +40,15 @@ public class Realm {
         }
         switch (string) {
             case "1":
-                System.out.println("Торговец еще не приехал");
+                seller = new Merchant();
+                System.out.println("Добро пожаловать к торговцу! Что вы хотите купить? ");
+                System.out.println("1. " + Merchant.Goods.POTION);
+                visitMerchant();
+                printNavigation();
                 command(br.readLine());
-
                 break;
             case "2":
                 commitFight();
-
                 break;
             case "3":
                 System.exit(1);
@@ -75,7 +79,8 @@ public class Realm {
 
             @Override
             public void fightWin() {
-                System.out.printf("%s победил! Теперь у вас %d опыта и %d золота, а также осталось %d едениц здоровья.%n", player.getName(), player.getXp(), player.getGold(), player.getHp());
+                System.out.printf("%s победил! Теперь у вас %d опыта и %d золота, а также осталось %d едениц здоровья.%n",
+                        player.getName(), player.getXp(), player.getGold(), player.getHp());
                 System.out.println("Желаете продолжить поход или вернуться в город? (да/нет)");
                 try {
                     command(br.readLine());
@@ -89,6 +94,22 @@ public class Realm {
 
             }
         });
+    }
+
+    private static void visitMerchant() throws IOException {
+        boolean call = true;
+        while (call) {
+            String str = br.readLine();
+            switch (str) {
+                case "1":
+                    player.setHp(player.getHp() + seller.sell(Merchant.Goods.POTION));
+                    System.out.println("Уровень вашего здоровья:" + player.getHp());
+                    System.out.println("Хотите купить еще ? ");
+                    break;
+                default:
+                    call = false;
+            }
+        }
     }
 
     private static Character createMonster() {
